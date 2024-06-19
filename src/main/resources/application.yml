@@ -6,9 +6,9 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
   datasource:
-    url: jdbc:postgresql://localhost:5442/shop
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5442/shop}
     username: postgres
     password: postgres
   liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.xml # if want to change default path
+    change-log: classpath:db/changelog/db.changelog-master.xml
 

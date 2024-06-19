@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  shop-postgres:
+    image: postgres:16
+    restart: always
+    container_name: shop-postgres
+    environment:
+      - POSTGRES_DB=shop
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "5442:5432"
+  shop:
+    container_name: shop-api
+    image: 'shop-api:latest'
+    build:
+      context: .
+    depends_on:
+      shop-postgres :
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://shop-postgres:5432/shop
+    ports:
+      - "8096:8096"
+
+volumes:
+  postgres_data:
+    driver: local
