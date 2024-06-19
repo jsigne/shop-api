@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="jsigne">
+        <sql>
+            CREATE SCHEMA product
+        </sql>
+    </changeSet>
+
+    <changeSet id="2" author="jsigne">
+        <createTable tableName="product"  schemaName="product">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="code" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="inventory_status" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image" type="VARCHAR"/>
+            <column name="rating" type="VARCHAR"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="jsigne">
+        <sql>
+            INSERT INTO product.product (code, name, description, price, quantity, inventory_status, category)
+            VALUES
+                ('code', 'basic chair', 'a basic chair', 10, 6, 'Low', 'chair')
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
