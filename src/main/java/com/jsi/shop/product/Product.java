@@ -15,7 +15,7 @@ public class Product {
     private String code;
     private String name;
     private String description;
-    private Double price;
+    private Float price;
     private Integer quantity;
     private String inventoryStatus;
     private String category;
