@@ -38,13 +38,16 @@ User : postgres Password : postgres
 You can request the local API with Postman or an equivalent tool via url :
 http://localhost:8096/
 
-A swagger is also avaible at URL : http://localhost:8096/swagger-ui/index.html
+A swagger is also available at URL : 
+```
+http://localhost:8096/swagger-ui/index.html
+```
 
-## Available operation
-| Resource           | POST                  | GET                            | PATCH                                    | PUT | DELETE           |
-| ------------------ | --------------------- | ------------------------------ | ---------------------------------------- | --- | ---------------- |
-| **/products**      | Create a new products | Retrieve all products          | X                                        | X   |     X            |
-| **/products/1**    | X                     | Retrieve details for product 1 | Update details of product 1 if it exists | X   | Remove product 1 |
+## Available operations
+| Resource           | POST                 | GET                            | PATCH                                    | PUT | DELETE           |
+| ------------------ | -------------------- | ------------------------------ | ---------------------------------------- | --- | ---------------- |
+| **/products**      | Create a new product | Retrieve all products          | X                                        | X   |     X            |
+| **/products/1**    | X                    | Retrieve details for product 1 | Update details of product 1 if it exists | X   | Remove product 1 |
 
 
 # Architecture
