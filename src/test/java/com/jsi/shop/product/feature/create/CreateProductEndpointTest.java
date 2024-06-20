@@ -2,6 +2,8 @@ package com.jsi.shop.product.feature.create;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jsi.shop.product.Product;
+import com.jsi.shop.product.ProductRepository;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.modelmapper.ModelMapper;
@@ -24,7 +26,7 @@ class CreateProductEndpointTest {
     private final String CREATE_PRODUCT_URL = "/products";
 
     @MockBean
-    private CreateProductService createProductService;
+    ProductRepository productRepository;
     @MockBean
     private ModelMapper mapper;
 
@@ -34,18 +36,11 @@ class CreateProductEndpointTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void givenAddUsersRequest_WhenBodyIsValid_ThenReturn204NoContent() throws Exception {
+    void create() throws Exception {
 
-        CreateProductCommand productCommand = new CreateProductCommand();
-        productCommand.setCode("P1");
-        productCommand.setName("Basic product");
-        productCommand.setDescription("A basic product");
-        productCommand.setCategory("Category");
-        productCommand.setPrice(10F);
-        productCommand.setQuantity(10);
-        productCommand.setInventoryStatus("Low");
+        CreateProductCommand productCommand = prepareCreateProductCommand();
 
-        Product expectedProduct = new Product();
+        Product expectedProduct = prepareProduct();
 
         ArgumentCaptor<CreateProductCommand> productArgumentCaptor = ArgumentCaptor.forClass(CreateProductCommand.class);
         when(mapper.map(productArgumentCaptor.capture(), eq(Product.class))).thenReturn(expectedProduct);
@@ -57,9 +52,32 @@ class CreateProductEndpointTest {
                 .andReturn();
 
         assertThat(productArgumentCaptor.getValue()).usingRecursiveComparison().isEqualTo(productCommand);
-        verify(createProductService).create(expectedProduct);
+        verify(productRepository).save(expectedProduct);
     }
 
+    private static CreateProductCommand prepareCreateProductCommand() {
+        CreateProductCommand productCommand = new CreateProductCommand();
+        productCommand.setCode("P1");
+        productCommand.setName("Basic product");
+        productCommand.setDescription("A basic product");
+        productCommand.setCategory("Category");
+        productCommand.setPrice(10F);
+        productCommand.setQuantity(10);
+        productCommand.setInventoryStatus("Medium");
+        return productCommand;
+    }
 
+    private Product prepareProduct() {
+        Product product = new Product();
+        product.setId(1L);
+        product.setCode("P1");
+        product.setName("Basic product");
+        product.setDescription("A basic product");
+        product.setCategory("Category");
+        product.setPrice(10F);
+        product.setQuantity(10);
+        product.setInventoryStatus("Medium");
+        return product;
+    }
 
 }
