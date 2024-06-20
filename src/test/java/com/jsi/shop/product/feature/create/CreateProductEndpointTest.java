@@ -3,7 +3,6 @@ package com.jsi.shop.product.feature.create;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jsi.shop.product.Product;
 import com.jsi.shop.product.ProductRepository;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.modelmapper.ModelMapper;
@@ -42,8 +41,11 @@ class CreateProductEndpointTest {
 
         Product expectedProduct = prepareProduct();
 
-        ArgumentCaptor<CreateProductCommand> productArgumentCaptor = ArgumentCaptor.forClass(CreateProductCommand.class);
-        when(mapper.map(productArgumentCaptor.capture(), eq(Product.class))).thenReturn(expectedProduct);
+        ArgumentCaptor<CreateProductCommand> commandArgumentCaptor = ArgumentCaptor.forClass(CreateProductCommand.class);
+        when(mapper.map(commandArgumentCaptor.capture(), eq(Product.class))).thenReturn(expectedProduct);
+
+        ArgumentCaptor<Product> productArgumentCaptor = ArgumentCaptor.forClass(Product.class);
+        when(productRepository.save(productArgumentCaptor.capture())).thenReturn(expectedProduct);
 
         mockMvc.perform(MockMvcRequestBuilders.post(CREATE_PRODUCT_URL)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -51,7 +53,7 @@ class CreateProductEndpointTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertThat(productArgumentCaptor.getValue()).usingRecursiveComparison().isEqualTo(productCommand);
+        assertThat(commandArgumentCaptor.getValue()).usingRecursiveComparison().isEqualTo(productCommand);
         verify(productRepository).save(expectedProduct);
     }
 
