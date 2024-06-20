@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(DeleteProductEndpoint.class)
 class DeleteProductEndpointTest {
@@ -32,6 +33,7 @@ class DeleteProductEndpointTest {
         when(productRepository.findById(productId)).thenReturn(Optional.of(productToDelete));
 
         mockMvc.perform(MockMvcRequestBuilders.delete(DELETE_PRODUCT_URL, productId))
+                .andExpect(status().isOk())
                 .andReturn();
 
         verify(productRepository).delete(productToDelete);
