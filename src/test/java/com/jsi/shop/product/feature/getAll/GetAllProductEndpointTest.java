@@ -3,6 +3,7 @@ package com.jsi.shop.product.feature.getAll;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jsi.shop.product.Product;
+import com.jsi.shop.product.ProductRepository;
 import com.jsi.shop.product.ProductResponse;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -27,7 +28,7 @@ class GetAllProductEndpointTest {
     private final String GET_ALL_PRODUCT_URL = "/products";
 
     @MockBean
-    private GetAllProductService getAllProductService;
+    private ProductRepository productRepository;
     @MockBean
     private ModelMapper mapper;
 
@@ -45,7 +46,7 @@ class GetAllProductEndpointTest {
 
         Product product = new Product();
         product.setName("Product");
-        when(getAllProductService.getAll()).thenReturn(List.of(product));
+        when(productRepository.findAll()).thenReturn(List.of(product));
 
         ArgumentCaptor<Product> productArgumentCaptor = ArgumentCaptor.forClass(Product.class);
         when(mapper.map(productArgumentCaptor.capture(), eq(ProductResponse.class))).thenReturn(productResponse);
