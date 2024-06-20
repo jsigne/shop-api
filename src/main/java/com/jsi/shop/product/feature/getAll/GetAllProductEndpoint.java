@@ -1,5 +1,6 @@
 package com.jsi.shop.product.feature.getAll;
 
+import com.jsi.shop.product.ProductRepository;
 import com.jsi.shop.product.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -12,13 +13,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GetAllProductEndpoint {
 
-    private final GetAllProductService getAllProductService;
+    private final ProductRepository productRepository;
 
     private final ModelMapper mapper;
 
     @GetMapping("/products")
     public List<ProductResponse> getAll(){
-        return getAllProductService.getAll().stream()
+        return productRepository.findAll().stream()
                 .map(e -> mapper.map(e, ProductResponse.class))
                 .toList();
     }
