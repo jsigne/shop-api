@@ -4,35 +4,39 @@ This application is a REST API to manage shop products.
 # Technologies used
 - Java 21
 - Spring Boot 3.2
-- Postgres 16
-- Liquibase 4.24
+- ModelMapper
 - JUnit 5
 - Mockito 5.7
+- Postgres 16
+- Liquibase 4.24
+- Docker compose
+- SwaggerUI
 
 # Launch project
 
-## Required
-- Docker
-- Docker compose
-
-At the project root, run :
+## With Docker
+- Install Java 21
+- Install Docker
+- Install Docker compose v2
+- Clone the project into your local directory
+- At the project root, run :
 ```bash
 docker compose -f ./docker-compose.yml up -d
 ```
 This command will start a postgres container and api container.
 
-## Database
+The API is accessible via the port **8096**.
 
-The database is accessible via the port 5442.
-The root user is **postgres** and its password is **postgres**
+The database is accessible via the port **5442**. You can access database with following credentials
 
-## API
-The API is accessible via the port 8086
+```
+User : postgres Password : postgres
+```
 
 # Use the API
 
 You can request the local API with Postman or an equivalent tool via url :
-http://localhost:8096/products/
+http://localhost:8096/
 
 A swagger is also avaible at URL : http://localhost:8096/swagger-ui/index.html
 
@@ -43,3 +47,7 @@ A swagger is also avaible at URL : http://localhost:8096/swagger-ui/index.html
 | **/products/1**    | X                     | Retrieve details for product 1 | Update details of product 1 if it exists | X   | Remove product 1 |
 
 
+# Architecture
+
+The Architecture is inspired from Vertical Slice Architecture (VSA). 
+It is a feature based architecture, that group files related to the same feature together.
