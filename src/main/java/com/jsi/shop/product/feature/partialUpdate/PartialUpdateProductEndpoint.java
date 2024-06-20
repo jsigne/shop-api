@@ -2,6 +2,7 @@ package com.jsi.shop.product.feature.partialUpdate;
 
 import com.jsi.shop.product.Product;
 import com.jsi.shop.product.ProductRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.ObjectNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Products")
 public class PartialUpdateProductEndpoint {
 
     private final ModelMapper modelMapper;
