@@ -18,13 +18,13 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(PartialUpdateProductEndpoint.class)
 class PartialUpdateProductEndpointTest {
-    private String PARTIAL_UPDATE_URL = "/products/{id}";
+    private final String PARTIAL_UPDATE_URL = "/products/{id}";
+
     @MockBean
     private ProductRepository productRepository;
     @MockBean
@@ -58,6 +58,7 @@ class PartialUpdateProductEndpointTest {
         expectedProduct.setInventoryStatus("Low");
 
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+        when(productRepository.save(product)).thenReturn(expectedProduct);
 
         mockMvc.perform(MockMvcRequestBuilders.patch(PARTIAL_UPDATE_URL, productId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -65,7 +66,6 @@ class PartialUpdateProductEndpointTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        verify(productRepository).save(product);
         assertThat(product).usingRecursiveComparison().isEqualTo(expectedProduct);
         assertThat(partialUpdateCommandArgumentCaptor.getValue()).usingRecursiveComparison().isEqualTo(partialUpdateProductCommand);
     }
@@ -114,6 +114,7 @@ class PartialUpdateProductEndpointTest {
         expectedProduct.setRating(4);
 
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+        when(productRepository.save(product)).thenReturn(expectedProduct);
 
         mockMvc.perform(MockMvcRequestBuilders.patch(PARTIAL_UPDATE_URL, productId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -121,7 +122,6 @@ class PartialUpdateProductEndpointTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        verify(productRepository).save(product);
         assertThat(product).usingRecursiveComparison().isEqualTo(expectedProduct);
         assertThat(partialUpdateCommandArgumentCaptor.getValue()).usingRecursiveComparison().isEqualTo(partialUpdateProductCommand);
     }
